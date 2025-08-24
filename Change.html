@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Change Calculator</h1>
+      <form id="changeForm">
+        <label for="amount">Enter Amount:</label>
+        <input type="number" id="amount" required />
+        <button type="submit">Submit</button>
+      </form>
+      <button onclick="location.href='index.html'">Back to Main Menu</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("changeForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          let amount = parseInt(document.getElementById("amount").value);
+          const resultBox = document.getElementById("result");
+
+          if (isNaN(amount) || amount <= 0) {
+            resultBox.innerHTML = "Please enter a valid positive number.";
+            resultBox.style.color = "red";
+            return;
+          }
+
+          const denominations = [500, 100, 50, 20, 10, 5, 1];
+          let resultText = "";
+          for (const note of denominations) {
+            const count = Math.floor(amount / note);
+            if (count > 0) {
+              resultText += `${count} of ฿${note}<br>`;
+              amount -= count * note;
+            }
+          }
+
+          resultBox.innerHTML = resultText;
+          resultBox.style.color = "#111827";
+        });
+    </script>
+  </body>
+</html>

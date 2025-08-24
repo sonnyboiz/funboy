@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CM ↔ Feet Converter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>CM ↔ Feet Converter</h1>
+      <label for="cmInput">Centimeters (cm):</label>
+      <input type="number" id="cmInput" placeholder="Enter cm value" />
+      <label for="feetInput">Feet (ft):</label>
+      <input type="number" id="feetInput" placeholder="Enter feet value" />
+      <button id="convertBtn">Convert</button>
+      <button onclick="location.href='index.html'">Back to Main Menu</button>
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      const cmInput = document.getElementById("cmInput");
+      const feetInput = document.getElementById("feetInput");
+      const convertBtn = document.getElementById("convertBtn");
+      const resultDiv = document.getElementById("result");
+
+      convertBtn.addEventListener("click", () => {
+        const cmValue = parseFloat(cmInput.value);
+        const feetValue = parseFloat(feetInput.value);
+        resultDiv.textContent = "";
+
+        if (!isNaN(cmValue) && cmInput.value !== "") {
+          const feet = cmValue / 30.48;
+          resultDiv.textContent = `${cmValue} cm = ${feet.toFixed(3)} feet`;
+        } else if (!isNaN(feetValue) && feetInput.value !== "") {
+          const cm = feetValue * 30.48;
+          resultDiv.textContent = `${feetValue} feet = ${cm.toFixed(2)} cm`;
+        } else {
+          resultDiv.textContent = "Please enter a value in either cm or feet.";
+          resultDiv.style.color = "red";
+          return;
+        }
+        resultDiv.style.color = "#111827";
+        cmInput.value = "";
+        feetInput.value = "";
+      });
+    </script>
+  </body>
+</html>

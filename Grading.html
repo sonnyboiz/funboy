@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grade Assignment</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Grade Assignment</h1>
+      <label for="score">Enter your Score:</label>
+      <input type="number" id="score" placeholder="0 - 100" />
+      <button onclick="checkGrade()">Submit</button>
+      <button onclick="location.href='index.html'">Back to Main Menu</button>
+      <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      function checkGrade() {
+        const score = parseInt(document.getElementById("score").value);
+        const resultBox = document.getElementById("result");
+        let grade = "";
+
+        if (isNaN(score) || score < 0 || score > 100) {
+          resultBox.textContent =
+            "Please enter a valid score between 0 and 100.";
+          resultBox.style.color = "#ff5555";
+          return;
+        }
+
+        if (score >= 90) grade = "A";
+        else if (score >= 80) grade = "B";
+        else if (score >= 70) grade = "C";
+        else if (score >= 60) grade = "D";
+        else grade = "F";
+
+        resultBox.textContent = `You got "${grade}" grade.`;
+        resultBox.style.color = "#2563eb";
+      }
+    </script>
+  </body>
+</html>

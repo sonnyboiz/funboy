@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Distance to KBU</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kasem Bundit University Distance Calculator</h1>
+      <button id="findLocation">Where am I?</button>
+      <p id="result"></p>
+      <button onclick="location.href='index.html'">Back to Main Menu</button>
+    </div>
+
+    <script>
+      let clickCount = 0;
+      document.getElementById("findLocation").addEventListener("click", () => {
+        clickCount++;
+        const button = document.getElementById("findLocation");
+        button.textContent =
+          clickCount % 2 === 0 ? "Where am I?" : "Find me again!";
+        if (navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(showDistance, showError);
+        else
+          document.getElementById("result").innerText =
+            "Geolocation not supported.";
+      });
+
+      function showDistance(position) {
+        const userLat = position.coords.latitude;
+        const userLon = position.coords.longitude;
+        const kbuLat = 13.80265,
+          kbuLon = 100.73699;
+        const distance = haversineDistance(userLat, userLon, kbuLat, kbuLon);
+        document.getElementById(
+          "result"
+        ).innerText = `You're ${distance.toFixed(2)} km away from KBU.`;
+      }
+
+      function haversineDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371,
+          dLat = degToRad(lat2 - lat1),
+          dLon = degToRad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(degToRad(lat1)) *
+            Math.cos(degToRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      function degToRad(deg) {
+        return deg * (Math.PI / 180);
+      }
+      function showError(error) {
+        const r = document.getElementById("result");
+        if (error.code === error.PERMISSION_DENIED)
+          r.innerText = "User denied geolocation.";
+        else if (error.code === error.POSITION_UNAVAILABLE)
+          r.innerText = "Location unavailable.";
+        else if (error.code === error.TIMEOUT)
+          r.innerText = "Request timed out.";
+        else r.innerText = "Unknown error.";
+      }
+    </script>
+  </body>
+</html>
